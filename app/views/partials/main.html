@@ -1,21 +1,45 @@
 <div ng-include="'partials/navbar'"></div>
 
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+    <h1>Let's make some playlists!</h1>
+    <!--<p class="lead">-->
+        <!--<img src="images/yeoman.png" alt="I'm Yeoman"><br>-->
+        <!--Always a pleasure scaffolding your apps.-->
+    <!--</p>-->
 </div>
 
 <div class="row marketing">
-  <div ng-repeat="thing in awesomeThings">
-      <h4>{{thing.name}}</h4>
-      <p>{{thing.info}}</p>
-  </div>
+
+    <form ng-submit="addPlaylist()">
+        <input placeholder="new playlist name here" ng-model="newPlaylist.title">
+    </form>
+    <div ng-repeat="playlist in playlists">
+
+        <div ng-dblclick="editSongOrPlaylist(playlist)">
+            <h2 ng-hide="playlist.editing">{{playlist.title}}</h2>
+            <form ng-show="playlist.editing" ng-submit="doneEditing(playlist)">
+                <input ng-model="playlist.title">
+            </form>
+        </div>
+
+        <ul>
+            <li ng-dblclick="editSongOrPlaylist(song)" ng-repeat="song in playlist.songs">
+                <form ng-show="song.editing" ng-submit="doneEditing(song)">
+                    <input ng-show="song.editing" ng-model="song.title"></input>
+                </form>
+                <h4 ng-hide="song.editing">{{song.title}}</h4>
+                <button class="btn" ng-click="removeSong(playlist.songs, song)">Remove Song</button>
+            </li>
+            <form ng-submit="addSong(playlist)">
+                <input placeholder="new song name here" ng-model="newSong.title">
+            </form>
+        </ul>
+        <button class="btn" ng-click="removePlaylist(playlist)">Remove Playlist</button>
+
+    </div>
+
 </div>
 
 <div class="footer">
-  <p>♥ from the Yeoman team</p>
+    <p>made w ♥ from brooklyn by <a target=_new href="http://github.com/meg2208">garbanzio</a></p>
 </div>
