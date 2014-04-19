@@ -2,40 +2,76 @@
 
 <div class="jumbotron">
     <h1>Let's make some playlists!</h1>
-    <!--<p class="lead">-->
-        <!--<img src="images/yeoman.png" alt="I'm Yeoman"><br>-->
-        <!--Always a pleasure scaffolding your apps.-->
-    <!--</p>-->
+    <p class="lead">
+    Simply enter the name of the new playlist you would like to add then press enter.
+    <br>If you would like to add a song, enter the name, artist, and album then press enter (or "add new song")
+    <br>You can double-click any playlist title or song data to edit them.
+    </p>
 </div>
 
 <div class="row marketing">
 
-    <form ng-submit="addPlaylist()">
+    <form class="text-center" ng-submit="addPlaylist()">
         <input placeholder="new playlist name here" ng-model="newPlaylist.title">
     </form>
+    <br>
     <div ng-repeat="playlist in playlists">
-
+        <div class="playlist">
         <div ng-dblclick="editSongOrPlaylist(playlist)">
             <h2 ng-hide="playlist.editing">{{playlist.title}}</h2>
             <form ng-show="playlist.editing" ng-submit="doneEditing(playlist)">
                 <input ng-model="playlist.title">
+                <br>
             </form>
         </div>
 
-        <ul>
-            <li ng-dblclick="editSongOrPlaylist(song)" ng-repeat="song in playlist.songs">
-                <form ng-show="song.editing" ng-submit="doneEditing(song)">
-                    <input ng-show="song.editing" ng-model="song.title"></input>
-                </form>
-                <h4 ng-hide="song.editing">{{song.title}}</h4>
-                <button class="btn" ng-click="removeSong(playlist.songs, song)">Remove Song</button>
-            </li>
-            <form ng-submit="addSong(playlist)">
-                <input placeholder="new song name here" ng-model="newSong.title">
-            </form>
-        </ul>
-        <button class="btn" ng-click="removePlaylist(playlist)">Remove Playlist</button>
+        <table class="table">
+            <thead>
+            <tr class={{playlist.songs.length==0?"ng-hide":""}}>
+                <th><em>Song Name</em></th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th></th>
+            </tr>
 
+            </thead>
+            <tbody>
+
+            <tr ng-dblclick="editSongOrPlaylist(song)" ng-repeat="song in playlist.songs">
+                <td>
+                    <input ng-show="song.editing" ng-model="song.title" ng-submit="doneEditing(song)"></input>
+                    <h4 ng-hide="song.editing">{{song.title}}</h4>
+                </td>
+
+                <td>
+                    <input ng-show="song.editing" ng-model="song.artist" ng-submit="doneEditing(song)"></input>
+                    <h4 ng-hide="song.editing">{{song.artist}}</h4>
+                </td>
+
+                <td>
+                    <input ng-show="song.editing" ng-model="song.album" ng-submit="doneEditing(song)"></input>
+                    <h4 ng-hide="song.editing">{{song.album}}</h4>
+                </td>
+                <td>
+                    <button class="btn" ng-click="removeSong(playlist.songs, song)">Remove Song</button>
+                </td>
+            </tr>
+
+
+            </tbody>
+
+        </table>
+        <br>
+        <form ng-submit="addSong(playlist)">
+            <input placeholder="new song name here" ng-model="playlist.newSong.title">
+            <input placeholder="new song artist here" ng-model="playlist.newSong.artist">
+            <input placeholder="new song album here" ng-model="playlist.newSong.album">
+            <button class="btn-success">add new song</button>
+        </form>
+        <p class="error">{{playlist.error}}</p>
+        <button class="btn" ng-click="removePlaylist(playlist)">Remove Playlist</button>
+    </div>
+    <br>
     </div>
 
 </div>

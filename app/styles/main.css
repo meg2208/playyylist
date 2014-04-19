@@ -59,6 +59,23 @@ body {
   margin-top: 28px;
 }
 
+.error {
+  color: red;
+}
+
+.playlist {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    opacity: .9;
+    background: #d7cbe9:;
+    background-color: rgb(239, 236, 255);
+    padding: 30px;
+    -webkit-box-shadow: 6px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    6px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         6px 4px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */

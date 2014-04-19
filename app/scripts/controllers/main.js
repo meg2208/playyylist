@@ -1,52 +1,48 @@
 'use strict';
 
-var songs = [{title: "some title", editing: false},
-    {title: "another title", editing: false}];
-
-var playlists = [
-    {title: "playlist title",
-        songs: [{title: "some title", editing: false},
-            {title: "another title", editing: false}],
-        editing: false
-    }
-];
-
 angular.module('playyylistApp')
     .controller('PlaylistCtrl', function ($scope, $http) {
 
         "use strict";
 
-        $scope.resetNewSong = function() {
-            $scope.newSong = $scope.newSong || {};
-            $scope.newSong.title = "";
-            $scope.newSong.editing = false;
+        $scope.resetNewSong = function(playlist) {
+            playlist.newSong = {};
+            playlist.newSong.title = "";
+            playlist.newSong.editing = false;
         };
 
-        $scope.resetNewPlaylist = function() {
+        $scope.resetNewPlaylist = function(title) {
             $scope.newPlaylist = {};
-            $scope.newPlaylist.title = null;
-            $scope.newPlaylist.songs = [{title: "some title"}];
+            $scope.newPlaylist.title = title || '';
+            $scope.newPlaylist.songs = [];
+            $scope.resetNewSong($scope.newPlaylist);
+            return $scope.newPlaylist;
         };
 
         $scope.songs = [];
         $scope.playlists = [];
-        $scope.resetNewSong();
         $scope.resetNewPlaylist();
 
+        $scope.validateSong = function(song, playlist) {
+            playlist.error = null;
+            if (([song.title,song.album,song.artist].indexOf(undefined) != -1) ||
+                ([song.title,song.album,song.artist].indexOf("") != -1)) {
+                playlist.error = "you must enter a song title, album, and artist";
+            }
+        };
 
         $scope.addSong = function(playlist) {
-            // check if song exists
-            // if not, add song
-            var songTitleToInsert = $scope.newSong.title.trim();
-            playlist.songs.push({title: songTitleToInsert});
-            $scope.resetNewSong($scope);
+            $scope.validateSong(playlist.newSong, playlist);
+            if (playlist.error == null) {
+                playlist.songs.push(playlist.newSong);
+                $scope.resetNewSong(playlist);
+            }
         };
 
         $scope.addPlaylist = function() {
-            // check if song exists
-            // if not, add song
             var playlistTitleToInsert = $scope.newPlaylist.title.trim();
-            $scope.playlists.push({title: playlistTitleToInsert, songs: []});
+            var newPlaylist = $scope.resetNewPlaylist(playlistTitleToInsert);
+            $scope.playlists.push(newPlaylist);
             $scope.resetNewPlaylist();
         };
 
