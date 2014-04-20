@@ -39,17 +39,23 @@
 
             <tr ng-dblclick="editSongOrPlaylist(song)" ng-repeat="song in playlist.songs">
                 <td>
-                    <input ng-show="song.editing" ng-model="song.title" ng-submit="doneEditing(song)"></input>
+                    <form ng-submit="doneEditing(song)">
+                        <input ng-show="song.editing" ng-model="song.title"></input>
+                    </form>
                     <h4 ng-hide="song.editing">{{song.title}}</h4>
                 </td>
 
                 <td>
-                    <input ng-show="song.editing" ng-model="song.artist" ng-submit="doneEditing(song)"></input>
+                    <form ng-submit="doneEditing(song)">
+                        <input ng-show="song.editing" ng-model="song.artist"></input>
+                    </form>
                     <h4 ng-hide="song.editing">{{song.artist}}</h4>
                 </td>
 
                 <td>
-                    <input ng-show="song.editing" ng-model="song.album" ng-submit="doneEditing(song)"></input>
+                    <form ng-submit="doneEditing(song)">
+                        <input ng-show="song.editing" ng-model="song.album"></input>
+                    </form>
                     <h4 ng-hide="song.editing">{{song.album}}</h4>
                 </td>
                 <td class="text-center">
